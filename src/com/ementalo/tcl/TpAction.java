@@ -1,6 +1,5 @@
 package com.ementalo.tcl;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 
 public class TpAction {
@@ -132,7 +131,7 @@ public class TpAction {
 		if (to == null || from == null) {
 			return;
 		}
-
+		parent.addBackLocation(from, from.getLocation());
 		from.teleport(to);
 		}
 	}

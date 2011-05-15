@@ -1,14 +1,10 @@
 package com.ementalo.tcl;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,9 +13,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.ementalo.helpers.Colors;
 import com.nijikokun.bukkit.Permissions.Permissions;
-import java.io.FileReader;
-import java.util.Map;
 import org.anjocaido.groupmanager.GroupManager;
+import org.bukkit.Location;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginManager;
@@ -36,21 +31,20 @@ public class TeleConfirmLite extends JavaPlugin
 	private static Yaml yaml = new Yaml(new SafeConstructor());
 	public final ArrayList<TpAction> pendingRequests = new ArrayList<TpAction>();
 	static final Logger log = Logger.getLogger("Minecraft");
-	private static String folderDir = null;
-	private static String propertiesFile = "TeleConfirmLite.propeties";
 	public static HashMap<String, Boolean> tpToggle = null;
-	public static String accepteeMsg = "Accepted request.";
-	public static String denyeeMsg = "Denied request.";
-	public static String accepterMsg = "Request to teleport accepted.";
-	public static String denierMsg = "Request to teleport denied.";
-	public static String fromMsg = "%p would like to %t";
-	public static String tpToThemMsg = "teleport to you";
-	public static String tpThemToYouMsg = "teleport you to them";
-	public static String acceptDenyPrompt = "To accept this, type %a. To deny, type %d";
-	public static String playerHasPendingReq = "That player already has a pending request!";
-	public static String requestSent = "Request sent";
-	public static String msgPositiveColor = Colors.parseColor("green");
-	public static String msgNegativeColor = Colors.parseColor("rose");
+	public static HashMap<Player, Location> tpBack = null;
+	public static String accepteeMsg;
+	public static String denyeeMsg;
+	public static String accepterMsg;
+	public static String denierMsg;
+	public static String fromMsg;
+	public static String tpToThemMsg;
+	public static String tpThemToYouMsg;
+	public static String acceptDenyPrompt;
+	public static String playerHasPendingReq;
+	public static String requestSent;
+	public static String msgPositiveColor;
+	public static String msgNegativeColor;
 	private Player other = null;
 	private TpAction req = null;
 	public Object permissions = null;
@@ -85,8 +79,9 @@ public class TeleConfirmLite extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
-
+		config = getConfiguration();
 		tpToggle = new HashMap<String, Boolean>();
+		tpBack = new HashMap<Player, Location>();
 		serverListener = new TeleConfimLiteServerListener(this);
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Low, this);
@@ -100,15 +95,8 @@ public class TeleConfirmLite extends JavaPlugin
 		{
 			log.log(Level.SEVERE, "[TeleConfimLite] Could not load the config file", ex);
 		}
-
-		folderDir = "plugins/TeleConfirmLite/";
-
-		log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]");
-
-
-
-
-
+		AssignSettings();
+		log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
 	}
 
 	public TpAction getReceivingActionRequest(Player player)
@@ -143,31 +131,35 @@ public class TeleConfirmLite extends JavaPlugin
 		{
 			this.getDataFolder().mkdirs();
 		}
-		File tcl = new File(this.getDataFolder(), "TeleConfirmLite.yml");
-		if (!tcl.exists()) tcl.createNewFile();
-		config = new Configuration(tcl);
-		Map<String, Object> data = (Map<String, Object>)yaml.load(new FileReader(tcl));
-		if (data == null)
-		{
-			log.info("[TeleConfirmLite] Generating CommandAlert config file.");
-			data = new HashMap<String, Object>();
-			data.put("msgPositiveColor", "green");
-			data.put("msgNegativeColor", "rose");
-			data.put("accepteeMsg", "Accepted request.");
-			data.put("denyeeMsg", "Denied request.");
-			data.put("accepterMsg", "Request to teleport accepted.");
-			data.put("denierMsg", "Request to teleport denied.");
-			data.put("fromMsg", "%p would like to %t");
-			data.put("tpToThemMsg", "teleport to you");
-			data.put("tpThemToYouMsg", "teleport you to them");
-			data.put("acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
-			data.put("playerHasPendingReq", "That player already has a pending request!");
-			data.put("requestSent", "Request sent");
-			FileWriter tx = new FileWriter(tcl);
-			tx.write(yaml.dump(data));
-			tx.flush();
-			tx.close();
-		}
+		config.load();
+		final List<String> keys = config.getKeys(null);
+		if (!keys.contains("msgPositiveColor"))
+			config.setProperty("msgPositiveColor", "green");
+		if (!keys.contains("msgNegativeColor"))
+			config.setProperty("msgNegativeColor", "red");
+		if (!keys.contains("accepteeMsg"))
+			config.setProperty("accepteeMsg", "Accepted request.");
+		if (!keys.contains("denyeeMsg"))
+			config.setProperty("denyeeMsg", "Denied request.");
+		if (!keys.contains("accepterMsg"))
+			config.setProperty("accepterMsg", "Request to teleport accepted.");
+		if (!keys.contains("denierMsg"))
+			config.setProperty("denierMsg", "Request to teleport denied.");
+		if (!keys.contains("fromMsg"))
+			config.setProperty("fromMsg", "%p would like to %t");
+		if (!keys.contains("fromMsg"))
+			config.setProperty("fromMsg", "%p would like to %t");
+		if (!keys.contains("tpToThemMsg"))
+			config.setProperty("tpToThemMsg", "teleport to you");
+		if (!keys.contains("tpThemToYouMsg"))
+			config.setProperty("tpThemToYouMsg", "teleport you to them");
+		if (!keys.contains("acceptDenyPrompt"))
+			config.setProperty("acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
+		if (!keys.contains("playerHasPendingReq"))
+			config.setProperty("playerHasPendingReq", "That player already has a pending request!");
+		if (!keys.contains("playerHasPendingReq"))
+			config.setProperty("requestSent", "Request sent");
+		config.save();
 		config.load();
 	}
 
@@ -228,8 +220,7 @@ public class TeleConfirmLite extends JavaPlugin
 			if (hasPermission("tcl.tpctoggle", player))
 			{
 				toggleTp(player);
-				player.sendMessage(ChatColor.GREEN + "Teleportation"
-								   + (hasToggled(player) ? " disabled" : " allowed"));
+				player.sendMessage(ChatColor.GREEN + "Teleportation" + (hasToggled(player) ? " disabled" : " allowed"));
 				return true;
 			}
 			else
@@ -244,11 +235,8 @@ public class TeleConfirmLite extends JavaPlugin
 
 			if (split.length != 1)
 			{
-				player.sendMessage(Colors.Rose + "Usage: /" + commandLabel
-								   + " playername");
-
+				player.sendMessage(Colors.Rose + "Usage: /" + commandLabel + " playername");
 				return true;
-
 			}
 			else
 			{
@@ -261,8 +249,7 @@ public class TeleConfirmLite extends JavaPlugin
 				}
 				else
 				{
-					player.sendMessage(Colors.Rose + "Player " + modPlayer
-									   + " not found!");
+					player.sendMessage(Colors.Rose + "Player " + modPlayer + " not found!");
 					return true;
 				}
 			}
@@ -270,15 +257,13 @@ public class TeleConfirmLite extends JavaPlugin
 			{
 				if (other.getName().equalsIgnoreCase(player.getName()))
 				{
-					player.sendMessage(TeleConfirmLite.msgNegativeColor
-									   + "You can not tp to yourself");
+					player.sendMessage(TeleConfirmLite.msgNegativeColor + "You can not tp to yourself");
 					return true;
 				}
 			}
 			if (this.playerHasPendingRequest(other))
 			{
-				player.sendMessage(TeleConfirmLite.msgNegativeColor
-								   + TeleConfirmLite.playerHasPendingReq);
+				player.sendMessage(TeleConfirmLite.msgNegativeColor + TeleConfirmLite.playerHasPendingReq);
 				return true;
 			}
 
@@ -288,8 +273,7 @@ public class TeleConfirmLite extends JavaPlugin
 				{
 					if (hasToggled(other))
 					{
-						player.sendMessage(other.getDisplayName()
-										   + ChatColor.GRAY + " is not accepting requests");
+						player.sendMessage(other.getDisplayName() + ChatColor.GRAY + " is not accepting requests");
 						return true;
 					}
 
@@ -330,14 +314,13 @@ public class TeleConfirmLite extends JavaPlugin
 				}
 			}
 		}
-		if (command.equalsIgnoreCase("tpca")
-			|| command.equalsIgnoreCase("tpcd"))
+		if (command.equalsIgnoreCase("tpca") || command.equalsIgnoreCase("tpcd"))
 		{
 			final TpAction req = this.getReceivingActionRequest(player);
 
 			if (req == null)
 			{
-				return true;
+					return true;
 			}
 
 			final Player to = this.getServer().getPlayer(req.getTo());
@@ -356,10 +339,8 @@ public class TeleConfirmLite extends JavaPlugin
 				{
 					if (hasPermission("tcl.tpca", player))
 					{
-						from.sendMessage(msgPositiveColor
-										 + TeleConfirmLite.accepterMsg);
-						to.sendMessage(TeleConfirmLite.msgPositiveColor
-									   + TeleConfirmLite.accepteeMsg);
+						from.sendMessage(msgPositiveColor + TeleConfirmLite.accepterMsg);
+						to.sendMessage(TeleConfirmLite.msgPositiveColor + TeleConfirmLite.accepteeMsg);
 						req.teleport();
 						return true;
 					}
@@ -388,15 +369,12 @@ public class TeleConfirmLite extends JavaPlugin
 				break;
 
 			case TELEPORT_PLAYER_TO:
-
 				if (command.equalsIgnoreCase("tpca"))
 				{
 					if (hasPermission("tcl.tpca", player))
 					{
-						to.sendMessage(TeleConfirmLite.msgPositiveColor
-									   + TeleConfirmLite.accepterMsg);
-						from.sendMessage(TeleConfirmLite.msgPositiveColor
-										 + TeleConfirmLite.accepteeMsg);
+						to.sendMessage(TeleConfirmLite.msgPositiveColor + TeleConfirmLite.accepterMsg);
+						from.sendMessage(TeleConfirmLite.msgPositiveColor + TeleConfirmLite.accepteeMsg);
 						req.teleport();
 						return true;
 					}
@@ -409,10 +387,8 @@ public class TeleConfirmLite extends JavaPlugin
 				else if (command.equalsIgnoreCase("tpcd"))
 					if (hasPermission("tcl.tpcd", player))
 					{
-						to.sendMessage(TeleConfirmLite.msgNegativeColor
-									   + TeleConfirmLite.denierMsg);
-						from.sendMessage(TeleConfirmLite.msgNegativeColor
-										 + TeleConfirmLite.denyeeMsg);
+						to.sendMessage(TeleConfirmLite.msgNegativeColor + TeleConfirmLite.denierMsg);
+						from.sendMessage(TeleConfirmLite.msgNegativeColor + TeleConfirmLite.denyeeMsg);
 						return true;
 					}
 					else
@@ -423,8 +399,14 @@ public class TeleConfirmLite extends JavaPlugin
 
 				break;
 			}
-
 			this.pendingRequests.remove(req);
+		}
+
+		if (commandLabel.equalsIgnoreCase("tpcback"))
+		{
+			player.sendMessage("Teleporting to your previous location");
+			player.teleport(getBackLocation(player));
+			return true;
 		}
 		return false;
 	}
@@ -432,7 +414,6 @@ public class TeleConfirmLite extends JavaPlugin
 	public void processRequest(Player player)
 	{
 		req.sendRequest();
-
 		player.sendMessage(msgPositiveColor + requestSent);
 		this.pendingRequests.add(req);
 	}
@@ -472,6 +453,17 @@ public class TeleConfirmLite extends JavaPlugin
 				: tpToggle.put(name, true))
 				;
 		}
+	}
+
+	public void addBackLocation(Player player, Location location)
+	{
+		tpBack.put(player, location);
+	}
+
+	public Location getBackLocation(Player player)
+	{
+		if (player == null) return null;
+		return tpBack.get(player);
 	}
 
 	public Boolean hasToggled(Player player)
