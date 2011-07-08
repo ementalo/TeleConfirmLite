@@ -21,10 +21,9 @@ public class TeleConfimLiteServerListener extends ServerListener
 		if (parent.permPlugin != null) return;
 
 		String pluginName = event.getPlugin().getDescription().getName();
-		if (pluginName.equalsIgnoreCase("GroupManager") || pluginName.equalsIgnoreCase("Permissions"))
+		if (pluginName.equalsIgnoreCase("Permissions"))
 		{
 			parent.permPlugin = event.getPlugin();
-			parent.isGm = pluginName.equalsIgnoreCase("GroupManager");
 			TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found " + pluginName + ". Using it for permissions");
 		}
 	}
@@ -34,13 +33,7 @@ public class TeleConfimLiteServerListener extends ServerListener
 	{
 		if (parent.permPlugin == null) return;
 		String pluginName = event.getPlugin().getDescription().getName();
-		String attachedName = parent.permPlugin.getDescription().getName();
-		if (pluginName.equalsIgnoreCase("GroupManager") && attachedName.equalsIgnoreCase("GroupManager"))
-		{
-			parent.permPlugin = null;
-			TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] " + pluginName + " disabled commands are available to all");
-		}
-		if (pluginName.equalsIgnoreCase("Permissions") && attachedName.equalsIgnoreCase("Permissions"))
+		if (pluginName.equalsIgnoreCase("Permissions"))
 		{
 			parent.permPlugin = null;
 			TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] " + pluginName + " disabled commands are available to all");

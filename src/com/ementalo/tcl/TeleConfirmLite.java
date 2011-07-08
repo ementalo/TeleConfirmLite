@@ -13,7 +13,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.ementalo.helpers.Colors;
 import com.nijikokun.bukkit.Permissions.Permissions;
-import org.anjocaido.groupmanager.GroupManager;
 import org.bukkit.Location;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -320,7 +319,7 @@ public class TeleConfirmLite extends JavaPlugin
 
 			if (req == null)
 			{
-					return true;
+				return true;
 			}
 
 			final Player to = this.getServer().getPlayer(req.getTo());
@@ -404,9 +403,17 @@ public class TeleConfirmLite extends JavaPlugin
 
 		if (commandLabel.equalsIgnoreCase("tpcback"))
 		{
-			player.sendMessage("Teleporting to your previous location");
-			player.teleport(getBackLocation(player));
-			return true;
+			if (hasPermission("tcl.tpcback", player))
+			{
+				player.sendMessage("Teleporting to your previous location");
+				player.teleport(getBackLocation(player));
+				return true;
+			}
+			else
+			{
+				player.sendMessage("You do not have permission for that command");
+				return true;
+			}
 		}
 		return false;
 	}
@@ -428,16 +435,8 @@ public class TeleConfirmLite extends JavaPlugin
 		{
 			return true;
 		}
-		if (isGm)
-		{
-			GroupManager gm = (GroupManager)permPlugin;
-			return gm.getWorldsHolder().getWorldPermissions(base).has(base, node);
-		}
-		else
-		{
 			Permissions pm = (Permissions)permPlugin;
 			return pm.getHandler().has(base, node);
-		}
 	}
 
 	public void toggleTp(Player player)
