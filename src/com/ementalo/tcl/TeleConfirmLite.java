@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.ementalo.helpers.Colors;
+import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import org.bukkit.Location;
 import org.bukkit.event.Event.Priority;
@@ -46,9 +47,8 @@ public class TeleConfirmLite extends JavaPlugin
 	public static String msgNegativeColor;
 	private Player other = null;
 	private TpAction req = null;
-	public Object permissions = null;
+	public static PermissionHandler permissionHandler = null;
 	Plugin permPlugin = null;
-	Boolean isGm = false;
 	static Boolean isDebug = false;
 
 	public void _expire()
@@ -435,8 +435,11 @@ public class TeleConfirmLite extends JavaPlugin
 		{
 			return true;
 		}
-			Permissions pm = (Permissions)permPlugin;
-			return pm.getHandler().has(base, node);
+		if (permissionHandler == null)
+		{
+			permissionHandler = ((Permissions)permPlugin).getHandler();
+		}
+		return permissionHandler.has(base, node);
 	}
 
 	public void toggleTp(Player player)
