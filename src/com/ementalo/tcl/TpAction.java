@@ -1,139 +1,138 @@
 package com.ementalo.tcl;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 
 public class TpAction {
 
-	public TeleConfirmLite parent;
-	public enum Actions {
-		TELEPORT_TO_PLAYER(TeleConfirmLite.tpToThemMsg), TELEPORT_PLAYER_TO(
-				TeleConfirmLite.tpThemToYouMsg);
+    public TeleConfirmLite parent;
 
-		private String action;
+    public enum Actions {
+        TELEPORT_TO_PLAYER(Config.tpToThemMsg),
+        TELEPORT_PLAYER_TO(Config.tpThemToYouMsg);
 
-		Actions(String action) {
-			this.action = action;
-		}
+        private String action;
 
-		public String getAction() {
-			return action;
-		}
-	}
+        Actions(String action) {
+            this.action = action;
+        }
 
-	private final String sender;
+        public String getAction() {
+            return action;
+        }
+    }
 
-	/**
-	 * The player that is being teleported
-	 */
-	private final String from;
+    private final String sender;
 
-	/**
-	 * The player that is being teleported to
-	 */
-	private final String to;
+    /**
+     * The player that is being teleported
+     */
+    private final String from;
 
-	/**
-	 * The action to use
-	 */
-	private final Actions action;
+    /**
+     * The player that is being teleported to
+     */
+    private final String to;
 
-	/**
-	 * The time the action was made (to time out expired actions)
-	 */
-	private final long time;
+    /**
+     * The action to use
+     */
+    private final Actions action;
 
-	public TpAction(String sender, String to, String from, Actions action, TeleConfirmLite parent) {
-		this.parent = parent;
-		this.sender = sender;
-		this.to = to;
-		this.from = from;
-		this.action = action;
-		time = System.currentTimeMillis();
-		
-		
-	}
+    /**
+     * The time the action was made (to time out expired actions)
+     */
+    private final long time;
 
-	
-	/**
-	 * @return the action for the teleport command
-	 */
-	public Actions getAction() {
-		return action;
-	}
+    public TpAction(String sender, String to, String from, Actions action, TeleConfirmLite parent) {
+        this.parent = parent;
+        this.sender = sender;
+        this.to = ChatColor.stripColor(to);
+        this.from = ChatColor.stripColor(from);
+        this.action = action;
+        time = System.currentTimeMillis();
+    }
 
-	/**
-	 * @return the time the request was made
-	 */
-	public long getCreationTime() {
-		return time;
-	}
 
-	/**
-	 * @return the player being teleported
-	 */
-	public String getFrom() {
-		return from;
-	}
+    /**
+     * @return the action for the teleport command
+     */
+    public Actions getAction() {
+        return action;
+    }
 
-	/**
-	 * @return the player that initiated the request
-	 */
-	public String getSender() {
-		return sender;
-	}
+    /**
+     * @return the time the request was made
+     */
+    public long getCreationTime() {
+        return time;
+    }
 
-	/**
-	 * @return the player being teleported to
-	 */
-	public String getTo() {
-		return to;
-	}
+    /**
+     * @return the player being teleported
+     */
+    public String getFrom() {
+        return from;
+    }
 
-	/**
-	 * @param player
-	 *            the player to check
-	 * @return true if the player is active in this request
-	 */
-	public boolean hasPlayer(String player) {
-		return to.equals(player) || from.equals(player);
-	}
+    /**
+     * @return the player that initiated the request
+     */
+    public String getSender() {
+        return sender;
+    }
 
-	/**
-	 * Send the request to the player
-	 */
-	public void sendRequest() {
-		Player from = null;
-		Player to = null;
+    /**
+     * @return the player being teleported to
+     */
+    public String getTo() {
+        return to;
+    }
 
-		if (sender.equals(this.to)) {
-			from = parent.getServer().getPlayer(this.from);
-			to = parent.getServer().getPlayer(this.to);
-		} else {
-			from = parent.getServer().getPlayer(this.to);
-			to = parent.getServer().getPlayer(this.from);
-		}
-		
-		from.sendMessage(TeleConfirmLite.msgPositiveColor +  TeleConfirmLite.fromMsg.replace("%p", to.getName()).replace("%t", action.getAction()));
-		from.sendMessage(TeleConfirmLite.msgPositiveColor + TeleConfirmLite.acceptDenyPrompt.replace("%a", "tpca").replace("%d", "tpcd"));	
-		
-		
-	}
+    /**
+     * @param player the player to check
+     * @return true if the player is active in this request
+     */
+    public boolean hasPlayer(String player) {
+        return to.equals(player) || from.equals(player);
+    }
 
-	/**
-	 * Initiate the teleport
-	 */
-	public void teleport() {
-		
-		{
-		final Player to = parent.getServer().getPlayer(this.to);
-		final Player from = parent.getServer().getPlayer(this.from);
+    /**
+     * Send the request to the player
+     */
+    public void sendRequest() {
+        Player from = null;
+        Player to = null;
 
-		if (to == null || from == null) {
-			return;
-		}
-		parent.addBackLocation(from, from.getLocation());
-		from.teleport(to);
-		}
-	}
+        if (sender.equals(this.to)) {
+            from = parent.getServer().getPlayer(this.from);
+            to = parent.getServer().getPlayer(this.to);
+        } else {
+            from = parent.getServer().getPlayer(this.to);
+            to = parent.getServer().getPlayer(this.from);
+        }
+
+        from.sendMessage(Config.fromMsg.replace("%p", to.getName()).replace("%t", action.getAction()));
+        from.sendMessage(Config.acceptDenyPrompt.replace("%a", "tpca").replace("%d", "tpcd"));
+
+
+    }
+
+    /**
+     * Initiate the teleport
+     */
+    public void teleport() {
+
+        {
+            final Player to = parent.getServer().getPlayer(this.to);
+            final Player from = parent.getServer().getPlayer(this.from);
+
+            if (to == null || from == null) {
+                return;
+            }
+            parent.tclUserHandler.addBackLocation(from, from.getLocation());
+            from.teleport(to);
+        }
+    }
 
 }
