@@ -1,6 +1,7 @@
 package com.ementalo.tcl;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -76,5 +77,10 @@ public class TeleConfirmLiteUserHandler {
         } catch (NullPointerException np) {
             return false;
         }
+    }
+    
+    public boolean worldCompare(World compare, World compare2)
+    {
+        return compare == compare2;
     }
 }

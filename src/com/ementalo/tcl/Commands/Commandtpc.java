@@ -33,6 +33,13 @@ public class Commandtpc implements ITclCommand {
                 return;
             }
         }
+        
+        if(Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld()))
+        {
+            player.sendMessage();
+            return;
+        }
+
         if (!Config.isDebug) {
             if (other.getName().equalsIgnoreCase((player.getDisplayName()))) {
                 player.sendMessage(Config.selfTp);

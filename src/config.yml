@@ -3,7 +3,7 @@ messages:
   denyeeMsg: Denied request.
   accepterMsg: Request to teleport accepted.
   denierMsg: Request to teleport denied.
-  fromMsg: '%p would like to %t'
+  fromMsg: %p would like to %t
   tpToThemMsg: teleport to you
   tpThemToYouMsg: teleport you to them
   acceptDenyPrompt: To accept this, type %a. To deny, type %d
