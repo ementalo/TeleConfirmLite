@@ -56,7 +56,7 @@ public class TeleConfimLiteServerListener extends ServerListener {
 
         permPlugin = pm.getPlugin("Permissions");
         if (permPlugin != null && permPlugin.isEnabled()) {
-            parent.permsBase = new P3Perms(event.getPlugin());
+            parent.permsBase = new P3Perms(permPlugin);
             permPlugin = null;
             TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found Permissions. Using it for permissions");
         }
