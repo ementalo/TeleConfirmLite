@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 
 public class TeleConfirmLiteUserHandler {
-    public static ArrayList<TpAction> pendingRequests;
+    public ArrayList<TpAction> pendingRequests;
     public static HashMap<Player, Boolean> tpToggle;
     public static HashMap<Player, Location> tpBack;
 
@@ -61,19 +61,13 @@ public class TeleConfirmLiteUserHandler {
         if (tpToggle.get(player) == null) {
             tpToggle.put(player, false);
         } else {
-            if (tpToggle.get(player) == true ? tpToggle.put(player, false) : tpToggle.put(player, true)) ;
+            if (tpToggle.get(player) ? tpToggle.put(player, false) : tpToggle.put(player, true)) ;
         }
     }
 
     public Boolean hasToggled(Player player) {
         try {
-            if (tpToggle.isEmpty())
-                return false;
-            if (tpToggle.get(player.getName()) == true) {
-                return false;
-            } else {
-                return true;
-            }
+            return !tpToggle.isEmpty() && !tpToggle.get(player);
         } catch (NullPointerException np) {
             return false;
         }
@@ -81,6 +75,6 @@ public class TeleConfirmLiteUserHandler {
     
     public boolean worldCompare(World compare, World compare2)
     {
-        return compare == compare2;
+        return compare.equals(compare2);
     }
 }

@@ -11,7 +11,7 @@ public class Config {
     public static String accepteeMsg, denyeeMsg, accepterMsg, denierMsg;
     public static String fromMsg, tpToThemMsg, tpThemToYouMsg, acceptDenyPrompt;
     public static String playerHasPendingReq, requestSent, playerNotFound;
-    public static String playerCommand, selfTp, toggledMsg, backUsage;
+    public static String playerCommand, selfTp, toggledMsg, backUsage, requestWorlds;
     public static String noBackLocation, removeReq, teleportation, allowed, disabled;
 
     public static boolean isDebug;
@@ -70,7 +70,11 @@ public class Config {
         if (!keys.contains("messages.disabled"))
             config.set("messages.disabled", "Disabled");
         if (!keys.contains("messages.permissionDenied"))
-            config.set("messages.permissionDenied", "permissionDenied");
+            config.set("messages.permissionDenied", "§7You do not have permission for that command");
+        if (!keys.contains("messages.requestWorlds"))
+            config.set("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
+
+       //settings
         if (!keys.contains("settings.clearRequestsOnWorldChange"))
             config.set("settings.clearRequestsOnWorldChange", false);
         if (!keys.contains("settings.useBukkitPerms"))
@@ -106,10 +110,13 @@ public class Config {
         allowed = config.getString("messages.allowed", "Allowed");
         disabled = config.getString("messages.disabled", "Disabled");
         permissionDenied = config.getString("messages.permission", "§7You do not have permission for that command");
+        requestWorlds = config.getString("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
+        //settings
         clearRequestsOnWorldChange = config.getBoolean("settings.clearRequestsOnWorldChange", false);
         useBukkitPerms = config.getBoolean("settings.useBukkitPerms", false);
         requestTimeout = config.getInt("settings.requestTimeout", 30);
         isDebug = config.getBoolean("settings.isDebug", false);
         preventCrossWorldTp = config.getBoolean("settings.preventCrossWorldTp", false);
+
     }
 }

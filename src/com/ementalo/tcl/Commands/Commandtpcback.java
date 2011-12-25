@@ -7,13 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * Created by IntelliJ IDEA.
- * User: devhome
- * Date: 20/12/11
- * Time: 15:49
- * To change this template use File | Settings | File Templates.
- */
 public class Commandtpcback implements ITclCommand {
 
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
@@ -26,7 +19,6 @@ public class Commandtpcback implements ITclCommand {
         }
         player.sendMessage(Config.backUsage);
         player.teleport(l);
-        return;
     }
 
 

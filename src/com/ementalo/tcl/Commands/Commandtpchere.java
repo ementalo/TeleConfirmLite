@@ -9,13 +9,6 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: devhome
- * Date: 20/12/11
- * Time: 15:49
- * To change this template use File | Settings | File Templates.
- */
 public class Commandtpchere implements ITclCommand {
 
     public void execute(CommandSender sender, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
@@ -35,10 +28,17 @@ public class Commandtpchere implements ITclCommand {
             return;
         }
 
+        if(Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld()))
+        {
+            player.sendMessage(Config.requestWorlds);
+            return;
+        }
+
         if (parent.tclUserHandler.hasToggled(other)) {
             player.sendMessage(Config.toggledMsg.replace("%p", other.getDisplayName()));
             return;
         }
+
         req = new TpAction(
                 player.getName(),
                 player.getName(),

@@ -8,13 +8,6 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: devhome
- * Date: 20/12/11
- * Time: 15:49
- * To change this template use File | Settings | File Templates.
- */
 public class Commandtpc implements ITclCommand {
 
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
@@ -33,15 +26,14 @@ public class Commandtpc implements ITclCommand {
                 return;
             }
         }
-        
-        if(Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld()))
-        {
-            player.sendMessage();
+
+        if (Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld())) {
+            player.sendMessage(Config.requestWorlds);
             return;
         }
 
         if (!Config.isDebug) {
-            if (other.getName().equalsIgnoreCase((player.getDisplayName()))) {
+            if (other.getName().equalsIgnoreCase((player.getName()))) {
                 player.sendMessage(Config.selfTp);
                 return;
             }
@@ -52,13 +44,12 @@ public class Commandtpc implements ITclCommand {
         }
 
         if (parent.tclUserHandler.hasToggled(other)) {
-            player.sendMessage(Config.toggledMsg.replace("%p",other.getDisplayName()));
+            player.sendMessage(Config.toggledMsg.replace("%p", other.getDisplayName()));
             return;
         }
 
         req = new TpAction(player.getDisplayName(), other.getDisplayName(), player.getDisplayName(), TpAction.Actions.TELEPORT_TO_PLAYER, parent);
         parent.tclUserHandler.processRequest(player, req);
-        return;
     }
 
     public void execute(CommandSender sender, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
