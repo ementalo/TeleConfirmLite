@@ -35,6 +35,7 @@ public class TeleConfimLiteServerListener extends ServerListener {
             parent.permsBase = new bPermissionsPerms();
             permPlugin = null;
             TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found bPermissions. Using it for permissions");
+            return;
         }
 
         permPlugin = pm.getPlugin("GroupManager");
@@ -42,13 +43,7 @@ public class TeleConfimLiteServerListener extends ServerListener {
             parent.permsBase = new GroupManagerPerms(permPlugin);
             permPlugin = null;
             TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found GroupManager. Using it for permissions");
-        }
-
-        permPlugin = pm.getPlugin("Permissions");
-        if (permPlugin != null && permPlugin.isEnabled()) {
-            parent.permsBase = new P3Perms(event.getPlugin());
-            permPlugin = null;
-            TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found Permissions. Using it for permissions");
+            return;
         }
 
         permPlugin = pm.getPlugin("PermissionsEx");
@@ -56,6 +51,14 @@ public class TeleConfimLiteServerListener extends ServerListener {
             parent.permsBase = new PexPerms();
             permPlugin = null;
             TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found PermissionsEx. Using it for permissions");
+            return;
+        }
+
+        permPlugin = pm.getPlugin("Permissions");
+        if (permPlugin != null && permPlugin.isEnabled()) {
+            parent.permsBase = new P3Perms(event.getPlugin());
+            permPlugin = null;
+            TeleConfirmLite.log.log(Level.INFO, "[TeleConfirmLite] Found Permissions. Using it for permissions");
         }
     }
 

@@ -15,6 +15,10 @@ public class Commandtpcd implements ITclCommand {
 
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
         final TpAction req = parent.tclUserHandler.getReceivingActionRequest(player);
+        if(req == null)
+        {
+             player.sendMessage(Config.noPendingRequests);
+        }
         final Player to = parent.getServer().getPlayer(req.getTo());
         final Player from = parent.getServer().getPlayer(req.getFrom());
 

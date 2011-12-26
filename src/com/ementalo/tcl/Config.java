@@ -15,7 +15,7 @@ public class Config {
     public static String noBackLocation, removeReq, teleportation, allowed, disabled;
 
     public static boolean isDebug;
-    public static String permissionDenied;
+    public static String permissionDenied, noPendingRequests;
     public static boolean clearRequestsOnWorldChange, useBukkitPerms, preventCrossWorldTp;
     public static int requestTimeout;
 
@@ -73,6 +73,8 @@ public class Config {
             config.set("messages.permissionDenied", "§7You do not have permission for that command");
         if (!keys.contains("messages.requestWorlds"))
             config.set("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
+        if (!keys.contains("messages.noCurrentRequest"))
+            config.set("messages.noCurrentRequest", "§7You do not have any pending requests");
 
        //settings
         if (!keys.contains("settings.clearRequestsOnWorldChange"))
@@ -111,6 +113,8 @@ public class Config {
         disabled = config.getString("messages.disabled", "Disabled");
         permissionDenied = config.getString("messages.permission", "§7You do not have permission for that command");
         requestWorlds = config.getString("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
+        noPendingRequests = config.getString("messages.noCurrentRequest", "§7You do not have any pending requests");
+
         //settings
         clearRequestsOnWorldChange = config.getBoolean("settings.clearRequestsOnWorldChange", false);
         useBukkitPerms = config.getBoolean("settings.useBukkitPerms", false);

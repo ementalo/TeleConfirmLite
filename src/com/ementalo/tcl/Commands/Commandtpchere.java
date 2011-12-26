@@ -3,6 +3,7 @@ package com.ementalo.tcl.Commands;
 import com.ementalo.tcl.Config;
 import com.ementalo.tcl.TeleConfirmLite;
 import com.ementalo.tcl.TpAction;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,9 +17,15 @@ public class Commandtpchere implements ITclCommand {
     }
 
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
-        TpAction req = null;
 
+        if (args.length != 1) {
+            help(player, commandLabel);
+            return;
+        }
+        else {
+        TpAction req = null;
         Player other = null;
+
         List<Player> targets = parent.getServer().matchPlayer(args[0]);
 
         if (targets.size() >= 1) {
@@ -49,8 +56,9 @@ public class Commandtpchere implements ITclCommand {
         parent.tclUserHandler.processRequest(player, req);
 
     }
+    }
 
     public void help(CommandSender sender, String commandLabel) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        sender.sendMessage(ChatColor.RED + "Usage: /" + commandLabel + " playername");
     }
 }

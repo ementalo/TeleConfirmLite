@@ -17,7 +17,7 @@ public class Commandtpctoggle implements ITclCommand{
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent)
     {
         parent.tclUserHandler.toggleTp(player);
-        player.sendMessage(Config.teleportation + ( parent.tclUserHandler.hasToggled(player) ? Config.disabled : Config.allowed));
+        player.sendMessage(Config.teleportation + " " + ( parent.tclUserHandler.hasToggled(player) ? Config.disabled : Config.allowed));
     }
 
     public void help(CommandSender sender, String commandLabel)
