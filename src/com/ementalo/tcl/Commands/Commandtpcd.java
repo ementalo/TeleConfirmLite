@@ -17,7 +17,8 @@ public class Commandtpcd implements ITclCommand {
         final TpAction req = parent.tclUserHandler.getReceivingActionRequest(player);
         if(req == null)
         {
-             player.sendMessage(Config.noPendingRequests);
+            player.sendMessage(Config.noPendingRequests);
+            return;
         }
         final Player to = parent.getServer().getPlayer(req.getTo());
         final Player from = parent.getServer().getPlayer(req.getFrom());

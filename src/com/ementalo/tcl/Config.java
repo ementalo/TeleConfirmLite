@@ -54,7 +54,7 @@ public class Config {
         if (!keys.contains("messages.playerCommand"))
             config.set("messages.playerCommand", "§cThis command is only available in game to players");
         if (!keys.contains("messages.selfTp"))
-            config.set("messages.selfTp", "§cYou cannot to yourself");
+            config.set("messages.selfTp", "§cYou cannot tp to yourself");
         if (!keys.contains("messages.toggledMsg"))
             config.set("messages.toggledMsg", "§c%p §7 is not accepting requests");
         if (!keys.contains("messages.backUsage"))
@@ -79,8 +79,7 @@ public class Config {
        //settings
         if (!keys.contains("settings.clearRequestsOnWorldChange"))
             config.set("settings.clearRequestsOnWorldChange", false);
-        if (!keys.contains("settings.useBukkitPerms"))
-            config.set("settings.useBukkitPerms", false);
+       ;
         if (!keys.contains("settings.requestTimeout"))
             config.set("settings.requestTimeout", 30);
         if (!keys.contains("settings.preventCrossWorldTp"))
@@ -103,7 +102,7 @@ public class Config {
         requestSent = config.getString("messages.requestSent", "Request sent");
         playerNotFound = config.getString("messages.playerNotFound", "§cPlayer %p not found");
         playerCommand = config.getString("messages.playerCommand", "§cThis command is only available in game to players");
-        selfTp = config.getString("messages.selfTp", "§cYou cannot to yourself");
+        selfTp = config.getString("messages.selfTp", "§cYou cannot tp to yourself");
         toggledMsg = config.getString("messages.toggledMsg", "§c%p §7 is not accepting requests");
         backUsage = config.getString("messages.backUsage", "§7Teleporting you to your previous location");
         noBackLocation = config.getString("messages.noBackLocation", "§7No previous location");

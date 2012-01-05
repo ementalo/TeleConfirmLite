@@ -16,9 +16,12 @@ public class Commandtpcclear implements ITclCommand {
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
 
         final TpAction req = parent.tclUserHandler.getReceivingActionRequest(player);
+        if (req == null) {
+            player.sendMessage(Config.noPendingRequests);
+            return;
+        }
 
         parent.tclUserHandler.pendingRequests.remove(req);
-        //todo - messageify
         player.sendMessage(Config.removeReq);
     }
 
