@@ -22,8 +22,8 @@ public class TeleConfirmLiteUserHandler {
 
     public TpAction getReceivingActionRequest(Player player) {
         for (final TpAction req : pendingRequests) {
-            if (!req.getSender().equals(player.getName())
-                    && req.hasPlayer(player.getName())) {
+            if (!req.getSender().equals(player)
+                    && req.hasPlayer(player)) {
                 return req;
             }
         }
@@ -32,7 +32,7 @@ public class TeleConfirmLiteUserHandler {
 
     public boolean playerHasPendingRequest(Player player) {
         for (final TpAction action : pendingRequests) {
-            if (action.getTo().equalsIgnoreCase(player.getName())) {
+            if (action.getTo().equals(player)) {
                 return true;
             }
         }

@@ -1,7 +1,6 @@
 package com.ementalo.tcl;
 
-import org.bukkit.ChatColor;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 
 public class TpAction {
 
@@ -22,17 +21,17 @@ public class TpAction {
         }
     }
 
-    private final String sender;
+    private final Player sender;
 
     /**
      * The player that is being teleported
      */
-    private final String from;
+    private final Player from;
 
     /**
      * The player that is being teleported to
      */
-    private final String to;
+    private final Player to;
 
     /**
      * The action to use
@@ -44,11 +43,11 @@ public class TpAction {
      */
     private final long time;
 
-    public TpAction(String sender, String to, String from, Actions action, TeleConfirmLite parent) {
+    public TpAction(Player sender, Player to, Player from, Actions action, TeleConfirmLite parent) {
         this.parent = parent;
         this.sender = sender;
-        this.to = ChatColor.stripColor(to);
-        this.from = ChatColor.stripColor(from);
+        this.to = to;
+        this.from = from;
         this.action = action;
         time = System.currentTimeMillis();
     }
@@ -71,21 +70,21 @@ public class TpAction {
     /**
      * @return the player being teleported
      */
-    public String getFrom() {
+    public Player getFrom() {
         return from;
     }
 
     /**
      * @return the player that initiated the request
      */
-    public String getSender() {
+    public Player getSender() {
         return sender;
     }
 
     /**
      * @return the player being teleported to
      */
-    public String getTo() {
+    public Player getTo() {
         return to;
     }
 
@@ -93,7 +92,7 @@ public class TpAction {
      * @param player the player to check
      * @return true if the player is active in this request
      */
-    public boolean hasPlayer(String player) {
+    public boolean hasPlayer(Player player) {
         return to.equals(player) || from.equals(player);
     }
 
@@ -105,14 +104,14 @@ public class TpAction {
         Player to = null;
 
         if (sender.equals(this.to)) {
-            from = parent.getServer().getPlayer(this.from);
-            to = parent.getServer().getPlayer(this.to);
+            from = this.from;
+            to = this.to;
         } else {
-            from = parent.getServer().getPlayer(this.to);
-            to = parent.getServer().getPlayer(this.from);
+            from = this.to;
+            to = this.from;
         }
 
-        from.sendMessage(Config.fromMsg.replace("%p", to.getName()).replace("%t", action.getAction()));
+        from.sendMessage(Config.fromMsg.replace("%p", to.getDisplayName()).replace("%t", action.getAction()));
         from.sendMessage(Config.acceptDenyPrompt.replace("%a", "tpca").replace("%d", "tpcd"));
 
 
@@ -124,8 +123,8 @@ public class TpAction {
     public void teleport() {
 
         {
-            final Player to = parent.getServer().getPlayer(this.to);
-            final Player from = parent.getServer().getPlayer(this.from);
+            final Player to = this.to;
+            final Player from = this.from;
 
             if (to == null || from == null) {
                 return;

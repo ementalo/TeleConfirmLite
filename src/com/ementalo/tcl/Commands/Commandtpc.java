@@ -48,7 +48,7 @@ public class Commandtpc implements ITclCommand {
             return;
         }
 
-        req = new TpAction(player.getDisplayName(), other.getDisplayName(), player.getDisplayName(), TpAction.Actions.TELEPORT_TO_PLAYER, parent);
+        req = new TpAction(player, other, player, TpAction.Actions.TELEPORT_TO_PLAYER, parent);
         parent.tclUserHandler.processRequest(player, req);
     }
 

@@ -19,8 +19,8 @@ public class Commandtpca implements ITclCommand {
             player.sendMessage(Config.noPendingRequests);
             return;
         }
-        final Player to = parent.getServer().getPlayer(req.getTo());
-        final Player from = parent.getServer().getPlayer(req.getFrom());
+        final Player to = req.getTo();
+        final Player from = req.getFrom();
 
         if (to == null || from == null) {
             return;

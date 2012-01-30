@@ -1,10 +1,11 @@
 package com.ementalo.tcl;
 
-import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 
-public class TeleConfirmLitePlayerListener extends PlayerListener {
+public class TeleConfirmLitePlayerListener implements Listener {
 
     TeleConfirmLite parent;
 
@@ -12,7 +13,8 @@ public class TeleConfirmLitePlayerListener extends PlayerListener {
         this.parent = parent;
     }
 
-    @Override
+
+    @EventHandler()
     public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
 
         if (Config.clearRequestsOnWorldChange) {

@@ -47,9 +47,9 @@ public class Commandtpchere implements ITclCommand {
         }
 
         req = new TpAction(
-                player.getName(),
-                player.getName(),
-                other.getName(),
+                player,
+                player,
+                other,
                 TpAction.Actions.TELEPORT_PLAYER_TO,
                 parent);
 

@@ -2,13 +2,9 @@ package com.ementalo.tcl;
 
 import com.ementalo.tcl.Commands.ITclCommand;
 import com.ementalo.tcl.Permissions.PermissionsBase;
-import com.nijiko.permissions.PermissionHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -50,10 +46,8 @@ public class TeleConfirmLite extends JavaPlugin {
         config = new Config(this);
         serverListener = new TeleConfimLiteServerListener(this);
         playerListener = new TeleConfirmLitePlayerListener(this);
-        PluginManager pm = this.getServer().getPluginManager();
-        pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
-        pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
-        pm.registerEvent(Type.PLAYER_CHANGED_WORLD, playerListener, Priority.Normal, this);
+        this.getServer().getPluginManager().registerEvents(serverListener, this);
+        this.getServer().getPluginManager().registerEvents(playerListener, this);
 
         try {
             config.loadSettings();

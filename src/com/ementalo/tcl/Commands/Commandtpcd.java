@@ -20,8 +20,8 @@ public class Commandtpcd implements ITclCommand {
             player.sendMessage(Config.noPendingRequests);
             return;
         }
-        final Player to = parent.getServer().getPlayer(req.getTo());
-        final Player from = parent.getServer().getPlayer(req.getFrom());
+        final Player to = req.getTo();
+        final Player from = req.getFrom();
 
 
         switch (req.getAction()) {
@@ -30,8 +30,8 @@ public class Commandtpcd implements ITclCommand {
                 to.sendMessage(Config.denyeeMsg);
                 break;
             case TELEPORT_PLAYER_TO:
-                to.sendMessage(Config.accepterMsg);
-                from.sendMessage(Config.accepteeMsg);
+                to.sendMessage(Config.denierMsg);
+                from.sendMessage(Config.denyeeMsg);
                 break;
         }
         parent.tclUserHandler.pendingRequests.remove(req);

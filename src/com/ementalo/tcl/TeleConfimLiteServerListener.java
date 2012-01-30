@@ -3,21 +3,22 @@ package com.ementalo.tcl;
 import java.util.logging.Level;
 
 import com.ementalo.tcl.Permissions.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 
-public class TeleConfimLiteServerListener extends ServerListener {
+public class TeleConfimLiteServerListener implements Listener {
     TeleConfirmLite parent = null;
 
     public TeleConfimLiteServerListener(TeleConfirmLite parent) {
         this.parent = parent;
     }
 
-    @Override
+    @EventHandler()
     public void onPluginEnable(PluginEnableEvent event) {
         if (parent.permsBase != null) return;
         if (Config.useBukkitPerms) {
@@ -62,7 +63,7 @@ public class TeleConfimLiteServerListener extends ServerListener {
         }
     }
 
-    @Override
+    @EventHandler()
     public void onPluginDisable(PluginDisableEvent event) {
         if (parent.permsBase == null) return;
         String pluginName = event.getPlugin().getDescription().getName();
