@@ -22,5 +22,5 @@ messages:
   permissionDenied: 'permissionDenied'
 settings:
   clearRequestsOnWorldChange: false
-  useBukkitPerms: false
   requestTimeout: 30
+  preventCrossWorldTp : false

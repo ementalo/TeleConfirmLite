@@ -49,12 +49,15 @@ public class TeleConfirmLite extends JavaPlugin {
         config.AssignSettings();
         log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
         if (!setupPermissions()) {
-            log.log(Level.WARNING, "[" + this.getDescription().getName() + "] No permissions plugin found. Safe commands will be available to all");
+            log.log(Level.WARNING, "[" + this.getDescription().getName() + "] Vault not found. Commands will be available to all");
         }
 
     }
 
     private boolean setupPermissions() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         permsBase = rsp.getProvider();
         return permsBase != null;

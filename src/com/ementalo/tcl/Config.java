@@ -16,7 +16,7 @@ public class Config {
 
     public static boolean isDebug;
     public static String permissionDenied, noPendingRequests;
-    public static boolean clearRequestsOnWorldChange, useBukkitPerms, preventCrossWorldTp;
+    public static boolean clearRequestsOnWorldChange, preventCrossWorldTp;
     public static int requestTimeout;
 
     public Config(TeleConfirmLite parent) {
@@ -79,7 +79,6 @@ public class Config {
        //settings
         if (!keys.contains("settings.clearRequestsOnWorldChange"))
             config.set("settings.clearRequestsOnWorldChange", false);
-       ;
         if (!keys.contains("settings.requestTimeout"))
             config.set("settings.requestTimeout", 30);
         if (!keys.contains("settings.preventCrossWorldTp"))
@@ -116,7 +115,6 @@ public class Config {
 
         //settings
         clearRequestsOnWorldChange = config.getBoolean("settings.clearRequestsOnWorldChange", false);
-        useBukkitPerms = config.getBoolean("settings.useBukkitPerms", false);
         requestTimeout = config.getInt("settings.requestTimeout", 30);
         isDebug = config.getBoolean("settings.isDebug", false);
         preventCrossWorldTp = config.getBoolean("settings.preventCrossWorldTp", false);
