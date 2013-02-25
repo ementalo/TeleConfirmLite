@@ -25,5 +25,5 @@ commands:
   tpcback:
     description: Returns you to your previous location
     usage: /<command>
-      
+softdepend: [Vault]
   
