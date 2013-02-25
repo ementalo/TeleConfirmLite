@@ -1,10 +1,12 @@
 package com.ementalo.tcl;
 
 import com.ementalo.tcl.Commands.ITclCommand;
-import com.ementalo.tcl.Permissions.PermissionsBase;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -14,12 +16,12 @@ import java.util.logging.Logger;
 
 public class TeleConfirmLite extends JavaPlugin {
     public static int REQUEST_TIMEOUT = 30;
-    private TeleConfimLiteServerListener serverListener = null;
     private TeleConfirmLitePlayerListener playerListener = null;
     public TeleConfirmLiteUserHandler tclUserHandler = null;
     public Config config = null;
     static final Logger log = Logger.getLogger("Minecraft");
-    PermissionsBase permsBase = null;
+    public static Economy econ = null;
+    public static Permission permsBase = null;
 
     public void _expire() {
         final ArrayList<TpAction> removal = new ArrayList<TpAction>();
@@ -33,20 +35,10 @@ public class TeleConfirmLite extends JavaPlugin {
         }
     }
 
-    /**
-     * When the plugin is disabled the plugin will cease to function
-     */
-
-    public void onDisable() {
-    }
-
-
     public void onEnable() {
         tclUserHandler = new TeleConfirmLiteUserHandler();
         config = new Config(this);
-        serverListener = new TeleConfimLiteServerListener(this);
         playerListener = new TeleConfirmLitePlayerListener(this);
-        this.getServer().getPluginManager().registerEvents(serverListener, this);
         this.getServer().getPluginManager().registerEvents(playerListener, this);
 
         try {
@@ -56,8 +48,17 @@ public class TeleConfirmLite extends JavaPlugin {
         }
         config.AssignSettings();
         log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
+        if (!setupPermissions()) {
+            log.log(Level.WARNING, "[" + this.getDescription().getName() + "] No permissions plugin found. Safe commands will be available to all");
+        }
+
     }
 
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        permsBase = rsp.getProvider();
+        return permsBase != null;
+    }
 
     public boolean executeCommand(final CommandSender sender, final Command command, final String commandLabel, final String[] args, final ClassLoader classLoader, final String commandPath) {
 
@@ -70,7 +71,7 @@ public class TeleConfirmLite extends JavaPlugin {
 
         if (sender instanceof Player) {
             if (permsBase != null) {
-                if (!permsBase.hasPermission((Player) sender, "tcl." + commandLabel)) {
+                if (!permsBase.has((Player) sender, "tcl." + commandLabel)) {
                     sender.sendMessage(Config.permissionDenied);
                     return true;
                 }
