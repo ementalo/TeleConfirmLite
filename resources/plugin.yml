@@ -1,5 +1,5 @@
 name: TeleConfirmLite
-version: 2.1
+version: 2.1.1
 main: com.ementalo.tcl.TeleConfirmLite
 authors:
   - ementalo

@@ -16,7 +16,7 @@ public class Config {
 
     public static boolean isDebug;
     public static String permissionDenied, noPendingRequests;
-    public static boolean clearRequestsOnWorldChange, preventCrossWorldTp;
+    public static boolean clearRequestsOnWorldChange, preventCrossWorldTp, allowMetrics;
     public static int requestTimeout;
 
     public Config(TeleConfirmLite parent) {
@@ -83,6 +83,8 @@ public class Config {
             config.set("settings.requestTimeout", 30);
         if (!keys.contains("settings.preventCrossWorldTp"))
             config.set("settings.preventCrossWorldTp", false);
+        if(!keys.contains("settings.allowMetrics"))
+            config.set("settings.allowMetrics", true);
 
         parent.saveConfig();
         parent.reloadConfig();
@@ -118,6 +120,7 @@ public class Config {
         requestTimeout = config.getInt("settings.requestTimeout", 30);
         isDebug = config.getBoolean("settings.isDebug", false);
         preventCrossWorldTp = config.getBoolean("settings.preventCrossWorldTp", false);
+        allowMetrics = config.getBoolean("settings.allowMetrics", true);
 
     }
 }

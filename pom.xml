@@ -6,7 +6,7 @@
 
     <groupId>com.ementalo</groupId>
     <artifactId>TeleConfirmLite</artifactId>
-    <version>2.1</version>
+    <version>2.1.1</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -17,8 +17,8 @@
             <url>http://ess.ementalo.com/nexus/content/repositories/emen</url>
         </repository>
         <repository>
-            <id>essentials-repo</id>
-            <url>http://ess.ementalo.com/nexus/content/groups/public/</url>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/repositories/releases/</url>
         </repository>
         <repository>
             <id>vault-repo</id>

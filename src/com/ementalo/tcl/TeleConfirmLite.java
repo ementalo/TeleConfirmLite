@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +21,9 @@ public class TeleConfirmLite extends JavaPlugin {
     public TeleConfirmLiteUserHandler tclUserHandler = null;
     public Config config = null;
     static final Logger log = Logger.getLogger("Minecraft");
-    public static Economy econ = null;
+    //public static Economy econ = null;
     public static Permission permsBase = null;
+    public Metrics metrics = null;
 
     public void _expire() {
         final ArrayList<TpAction> removal = new ArrayList<TpAction>();
@@ -48,11 +50,34 @@ public class TeleConfirmLite extends JavaPlugin {
         }
         config.AssignSettings();
         log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
+
         if (!setupPermissions()) {
             log.log(Level.WARNING, "[" + this.getDescription().getName() + "] Vault not found. Commands will be available to all");
         }
 
+        if (Config.allowMetrics) {
+            log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics enabled, disable this via config.yml");
+            try {
+                metrics = new Metrics(this);
+                if (!metrics.isOptOut()) {
+                    metrics.enable();
+                }
+                metrics.start();
+            } catch (IOException ex) {
+                log.log(Level.WARNING, "[" + this.getDescription().getName() + "] could not start metrics");
+            }
+        } else {
+            if (metrics != null) {
+                try {
+                    metrics.disable();
+                } catch (IOException ex) {
+                    log.log(Level.WARNING, "[" + this.getDescription().getName() + "] could not disable metrics");
+                }
+            }
+            log.log(Level.SEVERE, "[" + this.getDescription().getName() + "] Metrics is disabled, please consider enabling via config.yml");
+        }
     }
+
 
     private boolean setupPermissions() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
