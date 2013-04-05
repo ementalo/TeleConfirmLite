@@ -18,7 +18,8 @@ public class Commandtpc implements ITclCommand {
             help(player, commandLabel);
             return;
         } else {
-            List<Player> targets = parent.getServer().matchPlayer(args[0]);
+            List<Player> targets = parent.getMatchedPlayers(args[0]);
+
             if (targets.size() >= 1) {
                 other = targets.get(0);
             } else {

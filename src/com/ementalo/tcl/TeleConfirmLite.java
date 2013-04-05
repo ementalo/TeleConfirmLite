@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -117,6 +118,17 @@ public class TeleConfirmLite extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         this._expire();
         return executeCommand(sender, command, commandLabel, args, this.getClass().getClassLoader(), "com.ementalo.tcl.Commands.Command");
+    }
+
+    public List<Player> getMatchedPlayers(String playerName) {
+        List<Player> targets = new ArrayList<Player>();
+        for (Player p : getServer().getOnlinePlayers()) {
+            if (p.getName().toLowerCase().contains(playerName)
+             || p.getDisplayName().toLowerCase().contains(playerName)) {
+                targets.add(p);
+            }
+        }
+        return targets;
     }
 }
 
