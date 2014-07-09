@@ -22,42 +22,39 @@ public class Commandtpchere implements ITclCommand {
 
         if (args.length != 1) {
             help(player, commandLabel);
-            return;
-        }
-        else {
-        TpAction req = null;
-        Player other = null;
-
-        List<Player> targets = parent.getMatchedPlayers(args[0]);
-
-        if (targets.size() >= 1) {
-            other = targets.get(0);
         } else {
-            player.sendMessage(Config.playerNotFound.replace("%p", args[0]));
-            return;
+            TpAction req = null;
+            Player other = null;
+
+            List<Player> targets = parent.getMatchedPlayers(args[0]);
+
+            if (targets.size() >= 1) {
+                other = targets.get(0);
+            } else {
+                player.sendMessage(Config.playerNotFound.replace("%p", args[0]));
+                return;
+            }
+
+            if (Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld())) {
+                player.sendMessage(Config.requestWorlds);
+                return;
+            }
+
+            if (parent.tclUserHandler.hasToggled(other)) {
+                player.sendMessage(Config.toggledMsg.replace("%p", other.getDisplayName()));
+                return;
+            }
+
+            req = new TpAction(
+                    player,
+                    player,
+                    other,
+                    TpAction.Actions.TELEPORT_PLAYER_TO,
+                    parent);
+
+            parent.tclUserHandler.processRequest(player, req);
+
         }
-
-        if(Config.preventCrossWorldTp && !parent.tclUserHandler.worldCompare(player.getWorld(), other.getWorld()))
-        {
-            player.sendMessage(Config.requestWorlds);
-            return;
-        }
-
-        if (parent.tclUserHandler.hasToggled(other)) {
-            player.sendMessage(Config.toggledMsg.replace("%p", other.getDisplayName()));
-            return;
-        }
-
-        req = new TpAction(
-                player,
-                player,
-                other,
-                TpAction.Actions.TELEPORT_PLAYER_TO,
-                parent);
-
-        parent.tclUserHandler.processRequest(player, req);
-
-    }
     }
 
     @Override
