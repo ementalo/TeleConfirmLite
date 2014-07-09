@@ -1,7 +1,6 @@
 package com.ementalo.tcl;
 
 import com.ementalo.tcl.Commands.ITclCommand;
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,6 +37,7 @@ public class TeleConfirmLite extends JavaPlugin {
         }
     }
 
+    @Override
     public void onEnable() {
         tclUserHandler = new TeleConfirmLiteUserHandler();
         config = new Config(this);

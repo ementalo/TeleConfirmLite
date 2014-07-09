@@ -12,10 +12,12 @@ import java.util.List;
 
 public class Commandtpchere implements ITclCommand {
 
+    @Override
     public void execute(CommandSender sender, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
         sender.sendMessage(Config.playerCommand);
     }
 
+    @Override
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
 
         if (args.length != 1) {
@@ -58,6 +60,7 @@ public class Commandtpchere implements ITclCommand {
     }
     }
 
+    @Override
     public void help(CommandSender sender, String commandLabel) {
         sender.sendMessage(ChatColor.RED + "Usage: /" + commandLabel + " playername");
     }

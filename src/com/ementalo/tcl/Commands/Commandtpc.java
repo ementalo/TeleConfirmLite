@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Commandtpc implements ITclCommand {
 
+    @Override
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
         TpAction req = null;
         Player other = null;
@@ -53,11 +54,13 @@ public class Commandtpc implements ITclCommand {
         parent.tclUserHandler.processRequest(player, req);
     }
 
+    @Override
     public void execute(CommandSender sender, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
 
         sender.sendMessage(Config.playerCommand);
     }
 
+    @Override
     public void help(CommandSender sender, String commandLabel) {
 
         sender.sendMessage(ChatColor.RED + "Usage: /" + commandLabel + " playername");
