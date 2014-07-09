@@ -44,7 +44,7 @@ public class Config {
         if (!keys.contains("messages.tpThemToYouMsg"))
             config.set("messages.tpThemToYouMsg", "teleport you to them");
         if (!keys.contains("messages.acceptDenyPrompt"))
-            config.set("messages.acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
+            config.set("messages.acceptDenyPrompt", "To accept this, type /%a. To deny, type /%d");
         if (!keys.contains("messages.playerHasPendingReq"))
             config.set("messages.playerHasPendingReq", "That player already has a pending request!");
         if (!keys.contains("messages.playerHasPendingReq"))
@@ -98,7 +98,7 @@ public class Config {
         fromMsg = config.getString("messages.fromMsg", "%p would like to %t");
         tpToThemMsg = config.getString("messages.tpToThemMsg", "teleport to you");
         tpThemToYouMsg = config.getString("messages.tpThemToYouMsg", "teleport you to them");
-        acceptDenyPrompt = config.getString("messages.acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
+        acceptDenyPrompt = config.getString("messages.acceptDenyPrompt", "To accept this, type /%a. To deny, type /%d");
         playerHasPendingReq = config.getString("messages.playerHasPendingReq", "That player already has a pending request!");
         requestSent = config.getString("messages.requestSent", "Request sent");
         playerNotFound = config.getString("messages.playerNotFound", "§cPlayer %p not found");
