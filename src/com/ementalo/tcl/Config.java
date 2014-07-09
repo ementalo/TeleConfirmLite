@@ -31,36 +31,41 @@ public class Config {
     }
 
     public void AssignSettings() {
-        accepteeMsg = ChatColor.translateAlternateColorCodes        ('&', config.getString("messages.accepteeMsg", "Accepted request."));
-        denyeeMsg = ChatColor.translateAlternateColorCodes          ('&', config.getString("messages.denyeeMsg", "Denied request."));
-        accepterMsg = ChatColor.translateAlternateColorCodes        ('&', config.getString("messages.accepterMsg", "Request to teleport accepted."));
-        denierMsg = ChatColor.translateAlternateColorCodes          ('&', config.getString("messages.denierMsg", "Request to teleport denied."));
-        fromMsg = ChatColor.translateAlternateColorCodes            ('&', config.getString("messages.fromMsg", "%p would like to %t"));
-        tpToThemMsg = ChatColor.translateAlternateColorCodes        ('&', config.getString("messages.tpToThemMsg", "teleport to you"));
-        tpThemToYouMsg = ChatColor.translateAlternateColorCodes     ('&', config.getString("messages.tpThemToYouMsg", "teleport you to them"));
-        acceptDenyPrompt = ChatColor.translateAlternateColorCodes   ('&', config.getString("messages.acceptDenyPrompt", "To accept this, type /%a. To deny, type /%d"));
-        playerHasPendingReq = ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerHasPendingReq", "That player already has a pending request!"));
-        requestSent = ChatColor.translateAlternateColorCodes        ('&', config.getString("messages.requestSent", "Request sent"));
-        playerNotFound = ChatColor.translateAlternateColorCodes     ('&', config.getString("messages.playerNotFound", "&cPlayer %p not found"));
-        playerCommand = ChatColor.translateAlternateColorCodes      ('&', config.getString("messages.playerCommand", "&cThis command is only available in game to players"));
-        selfTp = ChatColor.translateAlternateColorCodes             ('&', config.getString("messages.selfTp", "&cYou cannot tp to yourself"));
-        toggledMsg = ChatColor.translateAlternateColorCodes         ('&', config.getString("messages.toggledMsg", "&c%p &7 is not accepting requests"));
-        backUsage = ChatColor.translateAlternateColorCodes          ('&', config.getString("messages.backUsage", "&7Teleporting you to your previous location"));
-        noBackLocation = ChatColor.translateAlternateColorCodes     ('&', config.getString("messages.noBackLocation", "&7No previous location"));
-        removeReq = ChatColor.translateAlternateColorCodes          ('&', config.getString("messages.removeReq", "&7Requests removed"));
-        teleportation = ChatColor.translateAlternateColorCodes      ('&', config.getString("messages.teleportation", "Teleportation"));
-        allowed = ChatColor.translateAlternateColorCodes            ('&', config.getString("messages.allowed", "Allowed"));
-        disabled = ChatColor.translateAlternateColorCodes           ('&', config.getString("messages.disabled", "Disabled"));
-        permissionDenied = ChatColor.translateAlternateColorCodes   ('&', config.getString("messages.permission", "&7You do not have permission for that command"));
-        requestWorlds = ChatColor.translateAlternateColorCodes      ('&', config.getString("messages.requestWorlds", "&7You cannot request to teleport from different worlds"));
-        noPendingRequests = ChatColor.translateAlternateColorCodes  ('&', config.getString("messages.noCurrentRequest", "&7You do not have any pending requests"));
+        accepteeMsg         = colorize(config.getString("messages.accepteeMsg", "Accepted request."));
+        denyeeMsg           = colorize(config.getString("messages.denyeeMsg", "Denied request."));
+        accepterMsg         = colorize(config.getString("messages.accepterMsg", "Request to teleport accepted."));
+        denierMsg           = colorize(config.getString("messages.denierMsg", "Request to teleport denied."));
+        fromMsg             = colorize(config.getString("messages.fromMsg", "%p would like to %t"));
+        tpToThemMsg         = colorize(config.getString("messages.tpToThemMsg", "teleport to you"));
+        tpThemToYouMsg      = colorize(config.getString("messages.tpThemToYouMsg", "teleport you to them"));
+        acceptDenyPrompt    = colorize(config.getString("messages.acceptDenyPrompt", "To accept this, type /%a. To deny, type /%d"));
+        playerHasPendingReq = colorize(config.getString("messages.playerHasPendingReq", "That player already has a pending request!"));
+        requestSent         = colorize(config.getString("messages.requestSent", "Request sent"));
+        playerNotFound      = colorize(config.getString("messages.playerNotFound", "&cPlayer %p not found"));
+        playerCommand       = colorize(config.getString("messages.playerCommand", "&cThis command is only available in game to players"));
+        selfTp              = colorize(config.getString("messages.selfTp", "&cYou cannot tp to yourself"));
+        toggledMsg          = colorize(config.getString("messages.toggledMsg", "&c%p &7 is not accepting requests"));
+        backUsage           = colorize(config.getString("messages.backUsage", "&7Teleporting you to your previous location"));
+        noBackLocation      = colorize(config.getString("messages.noBackLocation", "&7No previous location"));
+        removeReq           = colorize(config.getString("messages.removeReq", "&7Requests removed"));
+        teleportation       = colorize(config.getString("messages.teleportation", "Teleportation"));
+        allowed             = colorize(config.getString("messages.allowed", "Allowed"));
+        disabled            = colorize(config.getString("messages.disabled", "Disabled"));
+        permissionDenied    = colorize(config.getString("messages.permission", "&7You do not have permission for that command"));
+        requestWorlds       = colorize(config.getString("messages.requestWorlds", "&7You cannot request to teleport from different worlds"));
+        noPendingRequests   = colorize(config.getString("messages.noCurrentRequest", "&7You do not have any pending requests"));
 
         //settings
         clearRequestsOnWorldChange = config.getBoolean("settings.clearRequestsOnWorldChange", false);
-        requestTimeout = config.getInt("settings.requestTimeout", 30);
-        isDebug = config.getBoolean("settings.isDebug", false);
-        preventCrossWorldTp = config.getBoolean("settings.preventCrossWorldTp", false);
-        allowMetrics = config.getBoolean("settings.allowMetrics", true);
+        requestTimeout             = config.getInt    ("settings.requestTimeout", 30);
+        isDebug                    = config.getBoolean("settings.isDebug", false);
+        preventCrossWorldTp        = config.getBoolean("settings.preventCrossWorldTp", false);
+        allowMetrics               = config.getBoolean("settings.allowMetrics", true);
 
+    }
+    
+    private String colorize(String message)
+    {
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }
