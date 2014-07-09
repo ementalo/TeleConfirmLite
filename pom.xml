@@ -20,10 +20,6 @@
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/repositories/releases/</url>
         </repository>
-        <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
-        </repository>
     </repositories>
 
 
@@ -32,11 +28,6 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.7.2-R0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.milkbowl</groupId>
-            <artifactId>vault</artifactId>
-            <version>1.4.1</version>
         </dependency>
     </dependencies>
     <build>
