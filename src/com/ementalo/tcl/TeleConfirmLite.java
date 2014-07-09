@@ -123,8 +123,8 @@ public class TeleConfirmLite extends JavaPlugin {
     public List<Player> getMatchedPlayers(String playerName) {
         List<Player> targets = new ArrayList<Player>();
         for (Player p : getServer().getOnlinePlayers()) {
-            if (p.getName().toLowerCase().contains(playerName)
-             || p.getDisplayName().toLowerCase().contains(playerName)) {
+            if (p.getName().toLowerCase().contains(playerName.toLowerCase())
+             || p.getDisplayName().toLowerCase().contains(playerName.toLowerCase())) {
                 targets.add(p);
             }
         }
