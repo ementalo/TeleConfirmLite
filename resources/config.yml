@@ -6,7 +6,7 @@ messages:
   fromMsg: '%p would like to %t'
   tpToThemMsg: 'teleport to you'
   tpThemToYouMsg: 'teleport you to them'
-  acceptDenyPrompt: 'To accept this, type %a. To deny, type %d'
+  acceptDenyPrompt: 'To accept this, type /%a. To deny, type /%d'
   playerHasPendingReq: 'That player already has a pending request!'
   requestSent: 'Request sent'
   playerNotFound: '§cPlayer %p not found'
