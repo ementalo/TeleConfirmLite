@@ -67,7 +67,7 @@ public class TeleConfirmLite extends JavaPlugin {
                     log.log(Level.WARNING, "[" + this.getDescription().getName() + "] could not disable metrics");
                 }
             }
-            log.log(Level.SEVERE, "[" + this.getDescription().getName() + "] Metrics is disabled, please consider enabling via config.yml");
+            log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics is disabled, please consider enabling via config.yml");
         }
     }
 
