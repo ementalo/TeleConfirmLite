@@ -81,7 +81,6 @@ public class TeleConfirmLite extends JavaPlugin {
         }
 
         if (sender instanceof Player) {
-            System.out.println("Checking for tcl." + command.getName());
             if(!sender.hasPermission("tcl." + command.getName()))
             {
                 sender.sendMessage(Config.permissionDenied);
