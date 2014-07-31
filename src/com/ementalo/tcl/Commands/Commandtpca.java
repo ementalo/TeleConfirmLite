@@ -7,10 +7,12 @@ import org.bukkit.entity.Player;
 
 public class Commandtpca implements ITclCommand {
 
+    @Override
     public void execute(CommandSender sender, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
         sender.sendMessage(Config.playerCommand);
     }
 
+    @Override
     public void execute(Player player, Command command, String commandLabel, String[] args, TeleConfirmLite parent) {
 
         final TpAction req = parent.tclUserHandler.getReceivingActionRequest(player);
@@ -41,6 +43,7 @@ public class Commandtpca implements ITclCommand {
         parent.tclUserHandler.pendingRequests.remove(req);
     }
 
+    @Override
     public void help(CommandSender sender, String commandLabel) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

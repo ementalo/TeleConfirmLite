@@ -1,12 +1,9 @@
 package com.ementalo.tcl;
 
 import com.ementalo.tcl.Commands.ITclCommand;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -23,7 +20,6 @@ public class TeleConfirmLite extends JavaPlugin {
     public Config config = null;
     static final Logger log = Logger.getLogger("Minecraft");
     //public static Economy econ = null;
-    public static Permission permsBase = null;
     public Metrics metrics = null;
 
     public void _expire() {
@@ -38,6 +34,7 @@ public class TeleConfirmLite extends JavaPlugin {
         }
     }
 
+    @Override
     public void onEnable() {
         tclUserHandler = new TeleConfirmLiteUserHandler();
         config = new Config(this);
@@ -51,10 +48,6 @@ public class TeleConfirmLite extends JavaPlugin {
         }
         config.AssignSettings();
         log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
-
-        if (!setupPermissions()) {
-            log.log(Level.WARNING, "[" + this.getDescription().getName() + "] Vault not found. Commands will be available to all");
-        }
 
         if (Config.allowMetrics) {
             log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics enabled, disable this via config.yml");
@@ -79,16 +72,6 @@ public class TeleConfirmLite extends JavaPlugin {
         }
     }
 
-
-    private boolean setupPermissions() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        permsBase = rsp.getProvider();
-        return permsBase != null;
-    }
-
     public boolean executeCommand(final CommandSender sender, final Command command, final String commandLabel, final String[] args, final ClassLoader classLoader, final String commandPath) {
 
         ITclCommand cmd;
@@ -99,11 +82,10 @@ public class TeleConfirmLite extends JavaPlugin {
         }
 
         if (sender instanceof Player) {
-            if (permsBase != null) {
-                if (!permsBase.has((Player) sender, "tcl." + commandLabel)) {
-                    sender.sendMessage(Config.permissionDenied);
-                    return true;
-                }
+            if(!sender.hasPermission("tcl." + commandLabel))
+            {
+                sender.sendMessage(Config.permissionDenied);
+                return true;
             }
 
             cmd.execute((Player) sender, command, commandLabel, args, this);
@@ -123,8 +105,8 @@ public class TeleConfirmLite extends JavaPlugin {
     public List<Player> getMatchedPlayers(String playerName) {
         List<Player> targets = new ArrayList<Player>();
         for (Player p : getServer().getOnlinePlayers()) {
-            if (p.getName().toLowerCase().contains(playerName)
-             || p.getDisplayName().toLowerCase().contains(playerName)) {
+            if (p.getName().toLowerCase().contains(playerName.toLowerCase())
+             || p.getDisplayName().toLowerCase().contains(playerName.toLowerCase())) {
                 targets.add(p);
             }
         }

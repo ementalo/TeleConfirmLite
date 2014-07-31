@@ -10,7 +10,7 @@ public class TpAction {
         TELEPORT_TO_PLAYER(Config.tpToThemMsg),
         TELEPORT_PLAYER_TO(Config.tpThemToYouMsg);
 
-        private String action;
+        private final String action;
 
         Actions(String action) {
             this.action = action;

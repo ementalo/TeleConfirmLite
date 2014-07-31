@@ -61,7 +61,7 @@ import java.util.logging.Level;
  * void start(); <br/>
  * </code>
  */
-public class Metrics {
+public final class Metrics {
 
     /**
      * The current revision number
@@ -224,6 +224,7 @@ public class Metrics {
 
                 private boolean firstPost = true;
 
+                @Override
                 public void run() {
                     try {
                         // This has to be synchronized or it can collide with the disable method.

@@ -1,8 +1,7 @@
 package com.ementalo.tcl;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
-
-import java.util.Set;
 
 public class Config {
 
@@ -25,102 +24,48 @@ public class Config {
     }
 
     public void loadSettings() throws Exception {
-        if (!parent.getDataFolder().exists()) {
-            parent.getDataFolder().mkdirs();
-        }
-        final Set<String> keys = config.getKeys(true);
-        if (!keys.contains("messages.accepteeMsg"))
-            config.set("messages.accepteeMsg", "Accepted request.");
-        if (!keys.contains("messages.denyeeMsg"))
-            config.set("messages.denyeeMsg", "Denied request.");
-        if (!keys.contains("messages.accepterMsg"))
-            config.set("messages.accepterMsg", "Request to teleport accepted.");
-        if (!keys.contains("messages.denierMsg"))
-            config.set("messages.denierMsg", "Request to teleport denied.");
-        if (!keys.contains("messages.fromMsg"))
-            config.set("messages.fromMsg", "%p would like to %t");
-        if (!keys.contains("messages.tpToThemMsg"))
-            config.set("messages.tpToThemMsg", "teleport to you");
-        if (!keys.contains("messages.tpThemToYouMsg"))
-            config.set("messages.tpThemToYouMsg", "teleport you to them");
-        if (!keys.contains("messages.acceptDenyPrompt"))
-            config.set("messages.acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
-        if (!keys.contains("messages.playerHasPendingReq"))
-            config.set("messages.playerHasPendingReq", "That player already has a pending request!");
-        if (!keys.contains("messages.playerHasPendingReq"))
-            config.set("messages.requestSent", "Request sent");
-        if (!keys.contains("messages.playerNotFound"))
-            config.set("messages.playerNotFound", "§cPlayer %p not found");
-        if (!keys.contains("messages.playerCommand"))
-            config.set("messages.playerCommand", "§cThis command is only available in game to players");
-        if (!keys.contains("messages.selfTp"))
-            config.set("messages.selfTp", "§cYou cannot tp to yourself");
-        if (!keys.contains("messages.toggledMsg"))
-            config.set("messages.toggledMsg", "§c%p §7 is not accepting requests");
-        if (!keys.contains("messages.backUsage"))
-            config.set("messages.backUsage", "§7Teleporting you to your previous location");
-        if (!keys.contains("messages.noBackLocation"))
-            config.set("messages.noBackLocation", "§7No previous location");
-        if (!keys.contains("messages.removeReq"))
-            config.set("messages.removeReq", "§7Requests removed");
-        if (!keys.contains("messages.teleportation"))
-            config.set("messages.teleportation", "§7Teleportation");
-        if (!keys.contains("messages.allowed"))
-            config.set("messages.allowed", "Allowed");
-        if (!keys.contains("messages.disabled"))
-            config.set("messages.disabled", "Disabled");
-        if (!keys.contains("messages.permissionDenied"))
-            config.set("messages.permissionDenied", "§7You do not have permission for that command");
-        if (!keys.contains("messages.requestWorlds"))
-            config.set("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
-        if (!keys.contains("messages.noCurrentRequest"))
-            config.set("messages.noCurrentRequest", "§7You do not have any pending requests");
-
-       //settings
-        if (!keys.contains("settings.clearRequestsOnWorldChange"))
-            config.set("settings.clearRequestsOnWorldChange", false);
-        if (!keys.contains("settings.requestTimeout"))
-            config.set("settings.requestTimeout", 30);
-        if (!keys.contains("settings.preventCrossWorldTp"))
-            config.set("settings.preventCrossWorldTp", false);
-        if(!keys.contains("settings.allowMetrics"))
-            config.set("settings.allowMetrics", true);
+        config.options().copyDefaults(true);
 
         parent.saveConfig();
         parent.reloadConfig();
     }
 
     public void AssignSettings() {
-        accepteeMsg = config.getString("messages.accepteeMsg", "Accepted request.");
-        denyeeMsg = config.getString("messages.denyeeMsg", "Denied request.");
-        accepterMsg = config.getString("messages.accepterMsg", "Request to teleport accepted.");
-        denierMsg = config.getString("messages.denierMsg", "Request to teleport denied.");
-        fromMsg = config.getString("messages.fromMsg", "%p would like to %t");
-        tpToThemMsg = config.getString("messages.tpToThemMsg", "teleport to you");
-        tpThemToYouMsg = config.getString("messages.tpThemToYouMsg", "teleport you to them");
-        acceptDenyPrompt = config.getString("messages.acceptDenyPrompt", "To accept this, type %a. To deny, type %d");
-        playerHasPendingReq = config.getString("messages.playerHasPendingReq", "That player already has a pending request!");
-        requestSent = config.getString("messages.requestSent", "Request sent");
-        playerNotFound = config.getString("messages.playerNotFound", "§cPlayer %p not found");
-        playerCommand = config.getString("messages.playerCommand", "§cThis command is only available in game to players");
-        selfTp = config.getString("messages.selfTp", "§cYou cannot tp to yourself");
-        toggledMsg = config.getString("messages.toggledMsg", "§c%p §7 is not accepting requests");
-        backUsage = config.getString("messages.backUsage", "§7Teleporting you to your previous location");
-        noBackLocation = config.getString("messages.noBackLocation", "§7No previous location");
-        removeReq = config.getString("messages.removeReq", "§7Requests removed");
-        teleportation = config.getString("messages.teleportation", "Teleportation");
-        allowed = config.getString("messages.allowed", "Allowed");
-        disabled = config.getString("messages.disabled", "Disabled");
-        permissionDenied = config.getString("messages.permission", "§7You do not have permission for that command");
-        requestWorlds = config.getString("messages.requestWorlds", "§7You cannot request to teleport from different worlds");
-        noPendingRequests = config.getString("messages.noCurrentRequest", "§7You do not have any pending requests");
+        accepteeMsg         = colorize(config.getString("messages.accepteeMsg", "Accepted request."));
+        denyeeMsg           = colorize(config.getString("messages.denyeeMsg", "Denied request."));
+        accepterMsg         = colorize(config.getString("messages.accepterMsg", "Request to teleport accepted."));
+        denierMsg           = colorize(config.getString("messages.denierMsg", "Request to teleport denied."));
+        fromMsg             = colorize(config.getString("messages.fromMsg", "%p would like to %t"));
+        tpToThemMsg         = colorize(config.getString("messages.tpToThemMsg", "teleport to you"));
+        tpThemToYouMsg      = colorize(config.getString("messages.tpThemToYouMsg", "teleport you to them"));
+        acceptDenyPrompt    = colorize(config.getString("messages.acceptDenyPrompt", "To accept this, type /%a. To deny, type /%d"));
+        playerHasPendingReq = colorize(config.getString("messages.playerHasPendingReq", "That player already has a pending request!"));
+        requestSent         = colorize(config.getString("messages.requestSent", "Request sent"));
+        playerNotFound      = colorize(config.getString("messages.playerNotFound", "&cPlayer %p not found"));
+        playerCommand       = colorize(config.getString("messages.playerCommand", "&cThis command is only available in game to players"));
+        selfTp              = colorize(config.getString("messages.selfTp", "&cYou cannot tp to yourself"));
+        toggledMsg          = colorize(config.getString("messages.toggledMsg", "&c%p &7 is not accepting requests"));
+        backUsage           = colorize(config.getString("messages.backUsage", "&7Teleporting you to your previous location"));
+        noBackLocation      = colorize(config.getString("messages.noBackLocation", "&7No previous location"));
+        removeReq           = colorize(config.getString("messages.removeReq", "&7Requests removed"));
+        teleportation       = colorize(config.getString("messages.teleportation", "Teleportation"));
+        allowed             = colorize(config.getString("messages.allowed", "Allowed"));
+        disabled            = colorize(config.getString("messages.disabled", "Disabled"));
+        permissionDenied    = colorize(config.getString("messages.permission", "&7You do not have permission for that command"));
+        requestWorlds       = colorize(config.getString("messages.requestWorlds", "&7You cannot request to teleport from different worlds"));
+        noPendingRequests   = colorize(config.getString("messages.noCurrentRequest", "&7You do not have any pending requests"));
 
         //settings
         clearRequestsOnWorldChange = config.getBoolean("settings.clearRequestsOnWorldChange", false);
-        requestTimeout = config.getInt("settings.requestTimeout", 30);
-        isDebug = config.getBoolean("settings.isDebug", false);
-        preventCrossWorldTp = config.getBoolean("settings.preventCrossWorldTp", false);
-        allowMetrics = config.getBoolean("settings.allowMetrics", true);
+        requestTimeout             = config.getInt    ("settings.requestTimeout", 30);
+        isDebug                    = config.getBoolean("settings.isDebug", false);
+        preventCrossWorldTp        = config.getBoolean("settings.preventCrossWorldTp", false);
+        allowMetrics               = config.getBoolean("settings.allowMetrics", true);
 
+    }
+    
+    private String colorize(String message)
+    {
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

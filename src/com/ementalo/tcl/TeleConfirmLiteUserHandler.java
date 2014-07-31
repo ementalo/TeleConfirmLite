@@ -61,7 +61,7 @@ public class TeleConfirmLiteUserHandler {
         if (tpToggle.get(player) == null) {
             tpToggle.put(player, false);
         } else {
-            if (tpToggle.get(player) ? tpToggle.put(player, false) : tpToggle.put(player, true)) ;
+            tpToggle.put(player, !tpToggle.get(player));
         }
     }
 
