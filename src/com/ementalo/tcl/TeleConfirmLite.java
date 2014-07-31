@@ -47,7 +47,6 @@ public class TeleConfirmLite extends JavaPlugin {
             log.log(Level.SEVERE, "[TeleConfimLite] Could not load the config file", ex);
         }
         config.AssignSettings();
-        log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
 
         if (Config.allowMetrics) {
             log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics enabled, disable this via config.yml");
