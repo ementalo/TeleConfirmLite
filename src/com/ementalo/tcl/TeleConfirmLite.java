@@ -47,7 +47,6 @@ public class TeleConfirmLite extends JavaPlugin {
             log.log(Level.SEVERE, "[TeleConfimLite] Could not load the config file", ex);
         }
         config.AssignSettings();
-        log.log(Level.INFO, "[" + this.getDescription().getName() + "] [v" + this.getDescription().getVersion() + "]" + " loaded");
 
         if (Config.allowMetrics) {
             log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics enabled, disable this via config.yml");
@@ -68,7 +67,7 @@ public class TeleConfirmLite extends JavaPlugin {
                     log.log(Level.WARNING, "[" + this.getDescription().getName() + "] could not disable metrics");
                 }
             }
-            log.log(Level.SEVERE, "[" + this.getDescription().getName() + "] Metrics is disabled, please consider enabling via config.yml");
+            log.log(Level.INFO, "[" + this.getDescription().getName() + "] Metrics is disabled, please consider enabling via config.yml");
         }
     }
 
@@ -82,7 +81,7 @@ public class TeleConfirmLite extends JavaPlugin {
         }
 
         if (sender instanceof Player) {
-            if(!sender.hasPermission("tcl." + commandLabel))
+            if(!sender.hasPermission("tcl." + command.getName()))
             {
                 sender.sendMessage(Config.permissionDenied);
                 return true;

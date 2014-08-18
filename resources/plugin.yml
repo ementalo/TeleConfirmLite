@@ -1,29 +1,68 @@
-name: TeleConfirmLite
-version: 2.1.2
-main: com.ementalo.tcl.TeleConfirmLite
-authors:
-  - ementalo
+name: ${project.artifactId}
+version: ${project.version}
+description: ${project.description}
+main: ${project.groupId}.tcl.TeleConfirmLite
+author: ementalo
+website: http://dev.bukkit.org/bukkit-plugins/teleconfirmlite/
 commands:
   tpc:
     description: Request to teleport to the specified player.
     usage: /<command> <player>
+    aliases: tpa
   tpca:
     description: Accepts a teleport request.
     usage: /<command>
+    aliases: tpaccept
   tpchere:
     description: Request that the specified player teleport to you.
     usage: /<command> <player>
+    aliases: tpahere
   tpcd:
     description: Reject a teleport request.
     usage: /<command>
+    aliases: tpdeny
   tpctoggle:
     description: Toggle telportation.
     usage: /<command>
+    aliases: tpatoggle
   tpcclear:
     description: Removes a pending request.
     usage: /<command>
+    aliases: tpaclear
   tpcback:
     description: Returns you to your previous location
     usage: /<command>
-softdepend: [Vault]
-  
+    aliases: tpaback
+permissions:
+  tcl.tpc:
+    description: Permission to teleport to someone
+    default: true
+  tcl.tpchere:
+    description: Permission to teleport someone to you
+    default: true
+  tcl.tpca:
+    description: Allow accepting a request
+    default: true
+  tcl.tpcd:
+    description: Deny accepting a request
+    default: true
+  tcl.tpctoggle:
+    description: Toggle teleportation
+    default: true
+  tcl.tpcclear:
+    description: Clear pending requests
+    default: true
+  tcl.tpcback:
+    description: Permission for the back command
+    default: true
+  tcl.*:
+    description: All ${project.artifactId} permissions
+    default: true
+    children:
+      tcl.tpc: true
+      tcl.tpchere: true
+      tcl.tpca: true
+      tcl.tpcd: true
+      tcl.tpctoggle: true
+      tcl.tpcclear: true
+      tcl.tpcback: true
